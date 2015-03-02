@@ -11,9 +11,8 @@ var directoryForGitHook = "/root/services"
 app.post('/githook', jsonParser, function (req, res) {
   // This to make sure the request comes from Github
   if('before' in req.body) {
-    sh("cd " + directoryForGitHook);
-    sh("git pull -u origin master");
-    sh(restartCommand);
+    sh("cd " + directoryForGitHook + " && git pull -u origin master");
+    sh("cd " + directoryForGitHook + " && " + restartCommand);
     res.send('Complete!');
   }
 });
