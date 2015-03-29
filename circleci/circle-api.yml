@@ -1,0 +1,23 @@
+general:
+  branches:
+    only:
+      - master
+      - 2.0
+
+machine:
+  timezone:
+    America/Los_Angeles
+
+test:
+  override:
+    - echo "No tests are needed"
+
+deployment:
+  production:
+    branch: master
+    commands:
+      - ssh $SSHU "cd $DIRVONE && git pull -u origin master && forever restart src/index.js"
+  production:
+    branch: 2.0
+    commands:
+      - ssh $SSHU "cd $DIRVTWO && git pull -u origin master && forever restart src/index.js"

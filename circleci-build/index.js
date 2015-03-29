@@ -16,6 +16,8 @@ var runBuild = function(){
   });
 };
 
-setTimeout(function() { 
-  runBuild(); 
-}, 3600000);
+runBuild();
+
+//setTimeout(function() { 
+//  runBuild(); 
+//}, 3600000);
