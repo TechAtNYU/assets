@@ -1,0 +1,51 @@
+server {
+    listen 80;
+    server_name api.tnyu.org www.api.tnyu.org;
+    return 301 https://$server_name$request_uri;
+}
+
+upstream vone {
+  server localhost:3002;
+}
+
+upstream vtwo {
+  server localhost:3003;
+}
+
+server {
+    listen 443 ssl spdy;
+    server_name api.tnyu.org;
+
+    ssl_certificate           /var/apps/api_tnyu_org.crt;
+    ssl_certificate_key       /var/apps/myserver.key;
+
+    ssl on;
+    underscores_in_headers on;
+    access_log            /var/log/nginx/jenkins.access.log;
+
+    if ($http_x_forwarded_proto = "http") {
+        return 301 https://api.tnyu.org$request_uri;
+    }
+
+    location / {
+      resolver 8.8.8.8;
+      proxy_set_header        Host $host;
+      proxy_set_header        X-Real-IP $remote_addr;
+      proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
+      proxy_set_header        X-Forwarded-Ssl on;
+      proxy_set_header        X-Forwarded-Proto https;
+      proxy_pass_request_headers      on;
+      add_header Access-Control-Allow-Origin *;
+      proxy_pass_header  Set-Cookie;
+      proxy_pass_header  P3P;
+
+      # Fix the “It appears that your reverse proxy set up is broken" error.
+      # proxy_pass          http://vone;
+      proxy_pass http://vtwo;
+      if ($request_uri ~* "v1.0") {
+        proxy_pass http://vone;
+      }
+      proxy_read_timeout  90;
+      proxy_redirect      off;
+    }
+  }
