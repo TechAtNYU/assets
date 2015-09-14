@@ -12,7 +12,7 @@
 	// http://jscs.info/rule/disallowNamedUnassignedFunctions
 	"disallowNamedUnassignedFunctions": true,
 	
-	// No "var x = 1;" not "var x = 1 ;"
+	// Require "var x = 1;" not "var x = 1 ;"
 	"disallowSpaceBeforeSemicolon": true,
 
 	/**
@@ -29,7 +29,4 @@
 	// TODO: remove this once we switch to `let`/`const`,
 	// because it'll be needed much less frequently.
 	"disallowMultipleVarDecl": { allExcept: ['undefined'] },
-	
-	
-
 }
