@@ -1,5 +1,35 @@
 {
 	"preset": "google",
 	"validateIndentation": "\t",
-	"maximumLineLength": 120
+	"maximumLineLength": 120,
+	
+	/**
+	 * Extra requirements beyond the google preset
+	 */
+
+	// If you name a function in the middle
+	// of a statement, people probably won't see it.
+	// http://jscs.info/rule/disallowNamedUnassignedFunctions
+	"disallowNamedUnassignedFunctions": true,
+	
+	// No "var x = 1;" not "var x = 1 ;"
+	"disallowSpaceBeforeSemicolon": true,
+
+	/**
+	 * Reduced restrictions
+	 */
+
+	// allow else to be on its own line
+	"disallowKeywordsOnNewLine": [],
+
+	// Allow multiple variables to be initialized to
+	// undefined at once. Let's people define all their
+	// variables at the top of the function more 
+	// conveniently (to avoid unexpected hoisting).
+	// TODO: remove this once we switch to `let`/`const`,
+	// because it'll be needed much less frequently.
+	"disallowMultipleVarDecl": { allExcept: ['undefined'] },
+	
+	
+
 }
